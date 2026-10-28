@@ -43,14 +43,14 @@ class ScamAnalyzer {
     ),
     _Rule(
       category: 'Courier / parcel impersonation',
-      pattern: RegExp(r'(courier|parcel|customs|custom duty|fedex|dhl|india post|delivery).{0,60}(held|seized|fee|pay|police|case|urgent|blocked)|(?:held|seized|illegal).{0,35}(parcel|package)|कूरियर|पार्सल|कस्टम ड्यूटी|डाक विभाग|पार्सल जब्त|डिलीवरी शुल्क', caseSensitive: false),
+      pattern: RegExp(r'(courier|parcel|customs|custom duty|fedex|dhl|india post|delivery).{0,75}(held|on hold|seized|fee|pay|police|case|urgent|blocked|address is incomplete)|(?:held|on hold|seized|illegal).{0,35}(parcel|package)|कूरियर|पार्सल|कस्टम ड्यूटी|डाक विभाग|पार्सल जब्त|डिलीवरी शुल्क', caseSensitive: false),
       reasonEnglish: 'A parcel problem paired with an urgent fee, police threat, or demand for details deserves independent verification.',
       reasonHindi: 'पार्सल की समस्या के साथ तुरंत शुल्क, पुलिस की धमकी या निजी जानकारी की माँग की जाँच करें।',
       weight: 2,
     ),
     _Rule(
       category: 'Job / investment offer',
-      pattern: RegExp(r'job offer|work from home|registration fee|pay.{0,25}(to get|for the job|joining)|security deposit|guaranteed returns|double (your )?money|risk[- ]free|daily profit|crypto|investment plan|earn.{0,25}(per day|daily)|नौकरी|रजिस्ट्रेशन फीस|सिक्योरिटी डिपॉजिट|गारंटीड रिटर्न|पैसे दोगुने|निवेश योजना|रोज़ कमाएँ', caseSensitive: false),
+      pattern: RegExp(r'job offer|work from home|registration fee|pay.{0,35}(to get|for the job|joining|registration|fee)|security deposit|guaranteed returns|double (your )?money|risk[- ]free|daily profit|crypto|investment plan|earn.{0,35}(per day|daily)|invest.{0,35}(today|now|immediately)|नौकरी|रजिस्ट्रेशन फीस|सिक्योरिटी डिपॉजिट|गारंटीड रिटर्न|पैसे दोगुने|निवेश योजना|रोज़ कमाएँ', caseSensitive: false),
       reasonEnglish: 'Upfront fees, guaranteed returns, or pressure to invest can indicate a fake offer.',
       reasonHindi: 'पहले शुल्क, गारंटीड मुनाफ़ा या निवेश का दबाव नकली ऑफर का संकेत हो सकता है।',
       weight: 2,
@@ -74,7 +74,7 @@ class ScamAnalyzer {
     ),
     _Rule(
       category: 'Money or sensitive data demand',
-      pattern: RegExp(r'transfer (the )?money|pay (now|immediately|a fee)|send money|share (your )?(otp|pin|password)|tell me (the )?otp|verification fee|release your account|bank details|पैसे भेजें|रकम ट्रांसफर|ओटीपी बताएं|पिन साझा|पासवर्ड बताएं|खाता खोलने का शुल्क', caseSensitive: false),
+      pattern: RegExp(r'transfer (the )?money|pay\b.{0,30}(now|immediately|fee|₹|rs\.?|rupees)|send (the )?money|share (your )?(otp|pin|password)|tell me (the )?otp|verification fee|release your account|bank details|upfront payment|pay in advance|पैसे भेजें|रकम ट्रांसफर|ओटीपी बताएं|पिन साझा|पासवर्ड बताएं|खाता खोलने का शुल्क|अभी पैसे|तुरंत पैसे', caseSensitive: false),
       reasonEnglish: 'A request for money, OTPs, passwords, or bank details is a high-impact warning sign.',
       reasonHindi: 'पैसे, ओटीपी, पासवर्ड या बैंक विवरण की माँग गंभीर चेतावनी है।',
       weight: 3,

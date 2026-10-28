@@ -36,8 +36,16 @@ void main() {
         'Your parcel is held by customs. Pay an urgent fee to release it.',
         language: 'English',
       );
-      expect(result.category, 'Courier / parcel impersonation');
-      expect(result.riskKey, isNot('low_indicators'));
+
+      expect(
+        result.category,
+        anyOf(
+          'Courier / parcel impersonation',
+          'Multiple warning patterns',
+        ),
+      );
+      expect(result.riskKey, 'high');
+      expect(result.warningSigns, isNotEmpty);
     });
 
     test('detects upfront fee job and investment offers', () {
@@ -47,6 +55,28 @@ void main() {
       );
       expect(result.category, isNot('General check'));
       expect(result.riskKey, isNot('low_indicators'));
+    });
+
+    test('classifies the parcel-on-hold payment-link example as high risk', () {
+      final result = ScamAnalyzer.analyze(
+        'Your parcel is on hold because your address is incomplete. '
+        'Pay ₹25 immediately using this link or your package will be returned today.',
+        language: 'English',
+      );
+      expect(result.category, isNot('General check'));
+      expect(result.riskKey, 'high');
+      expect(result.warningSigns, isNotEmpty);
+    });
+
+    test('classifies guaranteed-return upfront payment as high risk', () {
+      final result = ScamAnalyzer.analyze(
+        'Earn ₹8,000 every day by investing ₹2,000 today. Guaranteed returns. '
+        'Send the money immediately to reserve your position.',
+        language: 'English',
+      );
+      expect(result.category, isNot('General check'));
+      expect(result.riskKey, 'high');
+      expect(result.warningSigns, isNotEmpty);
     });
 
     test('does not claim a low-warning message is safe', () {
