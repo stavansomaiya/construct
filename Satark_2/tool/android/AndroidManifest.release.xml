@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Satark's default release build has no network permission at all. Everything is
+         analysed on the phone. A release overlay has the highest merge priority, so this
+         also removes INTERNET if a library tries to add it. -->
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+</manifest>

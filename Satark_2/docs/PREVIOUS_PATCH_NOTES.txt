@@ -1,0 +1,12 @@
+Satark fix patch
+
+Copy the folders/files in this archive into your existing Satark project and allow overwriting matching files.
+This patch updates OCR fallback, microphone permissions/recognition service visibility, multi-contact storage and call selection, history refresh on opening the History tab, OTP false-positive handling, account-restriction classification, and regression tests.
+
+After copying, from the Satark project root run:
+  flutter pub get
+  flutter test
+  flutter build apk --release
+
+If Flutter reports any error, do not install the APK; send the complete error output.
+The patch was assembled from the source archive available in this conversation. I could not run Flutter tests/build in this environment, so validate it with your local Flutter SDK before replacing the installed app.
