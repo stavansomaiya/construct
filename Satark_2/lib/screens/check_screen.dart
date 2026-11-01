@@ -193,35 +193,36 @@ class CheckScreenState extends State<CheckScreen> {
       }
 
       final locales = await _speech.locales();
-      final prefix = isHindi(_lang) ? 'hi' : 'en';
-      final matching = locales.where((locale) => locale.localeId.toLowerCase().startsWith(prefix)).toList();
-      if (matching.isEmpty) {
-        _showMessage(tr(_lang, 'The selected speech language is not installed. Try typing or change the language in settings.', 'चुनी हुई बोलने की भाषा इंस्टॉल नहीं है। संदेश लिखें या सेटिंग्स में भाषा बदलें।'));
-        return;
-      }
-      _voiceBase = _messageController.text.trim();
-      setState(() {
-        _isListening = true;
-        _voiceNotePending = false;
-      });
-      await _speech.listen(
-        onResult: (result) {
-          if (!mounted) return;
-          setState(() {
-            final heard = result.recognizedWords;
-            _messageController.text = _voiceBase.isEmpty ? heard : '$_voiceBase $heard';
-            _messageController.selection = TextSelection.collapsed(offset: _messageController.text.length);
-            _sourceNote = tr(_lang, 'Voice input captured. Review the transcription before checking.', 'आवाज़ से लिखा गया टेक्स्ट मिल गया। जाँचने से पहले उसे देख लें।');
-          });
-        },
-        listenOptions: stt.SpeechListenOptions(
-          localeId: matching.first.localeId,
-          onDevice: true,
-          listenFor: const Duration(seconds: 120),
-          pauseFor: const Duration(seconds: 8),
-          partialResults: true,
-        ),
-      );
+    final prefix = isHindi(_lang) ? 'hi' : 'en';
+    final matching = locales.where((locale) => locale.localeId.toLowerCase().startsWith(prefix)).toList();
+    
+    // Agar locales empty bhi hon (jaise browser par hota hai), tab bhi error mat do
+    String? selectedLocaleId = matching.isNotEmpty ? matching.first.localeId : null;
+
+    _voiceBase = _messageController.text.trim();
+    setState(() {
+      _isListening = true;
+      _voiceNotePending = false;
+    });
+
+    await _speech.listen(
+      onResult: (result) {
+        if (!mounted) return;
+        setState(() {
+          final heard = result.recognizedWords;
+          _messageController.text = _voiceBase.isEmpty ? heard : '$_voiceBase $heard';
+          _messageController.selection = TextSelection.collapsed(offset: _messageController.text.length);
+          _sourceNote = tr(_lang, 'Voice input captured. Review the transcription before checking.', 'आवाज़ से लिखा गया टेक्स्ट मिल गया। जाँचने से पहले उसे देख लें।');
+        });
+      },
+      listenOptions: stt.SpeechListenOptions(
+        localeId: selectedLocaleId, // Yahan variable pass kar diya taaki crash na ho
+        // onDevice: true, // Yeh pehle hi comment kiya tha tune
+        listenFor: const Duration(seconds: 120),
+        pauseFor: const Duration(seconds: 8),
+        partialResults: true,
+      ),
+    );
     } catch (_) {
       if (mounted) {
         setState(() => _isListening = false);
