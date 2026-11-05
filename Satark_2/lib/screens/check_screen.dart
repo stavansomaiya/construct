@@ -192,12 +192,15 @@ class CheckScreenState extends State<CheckScreen> {
         return;
       }
 
+    String? selectedLocaleId;
+    try {
       final locales = await _speech.locales();
-    final prefix = isHindi(_lang) ? 'hi' : 'en';
-    final matching = locales.where((locale) => locale.localeId.toLowerCase().startsWith(prefix)).toList();
-    
-    // Agar locales empty bhi hon (jaise browser par hota hai), tab bhi error mat do
-    String? selectedLocaleId = matching.isNotEmpty ? matching.first.localeId : null;
+      final prefix = isHindi(_lang) ? 'hi' : 'en';
+      final matching = locales.where((locale) => locale.localeId.toLowerCase().startsWith(prefix)).toList();
+      selectedLocaleId = matching.isNotEmpty ? matching.first.localeId : (isHindi(_lang) ? 'hi_IN' : 'en_US');
+      } catch (_) {
+        selectedLocaleId = isHindi(_lang) ? 'hi_IN' : 'en_US';
+        }
 
     _voiceBase = _messageController.text.trim();
     setState(() {
