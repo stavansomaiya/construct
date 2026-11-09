@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "7HaPUtXdGKHMmEJdYmMDx"
+uri = "file://generated-artifacts/benchmark-report.html"
+type = "html"
+title = "Satark dataset benchmark report"
+description = "Metrics, language breakdown, confusion counts, and evaluation limitations for the 120-message multilingual dataset."
+logical_id = "5548c352-54f7-4749-9620-51e94aadc861"
+content_hash = "sha256:d85246d3a0f7dfd7748970962e763aa15ece7b8944e7ab98a3bdb0f9a908a66e"
+size = 2967
+mtime_ms = 1794236359315
+storage_uri = "gcs://replit-rams-assets-janeway/rams/assets/repl:ce16694a-12e4-4091-8b31-9565512ec713/5548c352-54f7-4749-9620-51e94aadc861/250ac088-833a-41b1-addc-4ff7b9a5051c"
+storage_version_token = "1794236394648045"
+content_type = "text/html"

@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -83,7 +82,7 @@ class CheckScreenState extends State<CheckScreen> {
       }
       if (item.type == SharedMediaType.file && mime.startsWith('text/')) {
         try {
-          importedText = await File(item.path).readAsString();
+          importedText = await XFile(item.path).readAsString();
           notice = tr(_lang, 'Shared text file received. Review it before checking.', 'साझा की गई टेक्स्ट फ़ाइल मिल गई। जाँचने से पहले उसे देख लें।');
         } catch (_) {
           notice = tr(_lang, 'Could not read that shared text file.', 'वह साझा की गई टेक्स्ट फ़ाइल पढ़ी नहीं जा सकी।');
@@ -140,6 +139,12 @@ class CheckScreenState extends State<CheckScreen> {
   }
 
   Future<void> _pickScreenshot() async {
+    if (kIsWeb) {
+      _showMessage(tr(_lang,
+          'Screenshot reading needs the Android app. Paste or type the message here instead.',
+          'स्क्रीनशॉट पढ़ने के लिए Android ऐप चाहिए। यहाँ संदेश पेस्ट करें या लिखें।'));
+      return;
+    }
     try {
       final image = await _imagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100);
       if (image == null || !mounted) return;
@@ -167,6 +172,14 @@ class CheckScreenState extends State<CheckScreen> {
   }
 
   Future<void> _toggleListening() async {
+    // Browser speech services may send audio to a provider. Do not silently
+    // replace the app's promised on-device speech recognition with cloud speech.
+    if (kIsWeb) {
+      _showMessage(tr(_lang,
+          'Private offline voice input needs the Android app. Paste or type the message here instead.',
+          'निजी ऑफ़लाइन वॉइस इनपुट के लिए Android ऐप चाहिए। यहाँ संदेश पेस्ट करें या लिखें।'));
+      return;
+    }
     if (_isListening) {
       await _speech.stop();
       if (mounted) setState(() => _isListening = false);
@@ -217,7 +230,7 @@ class CheckScreenState extends State<CheckScreen> {
       },
       listenOptions: stt.SpeechListenOptions(
         localeId: selectedLocaleId, // Yahan variable pass kar diya taaki crash na ho
-        // onDevice: true, // Yeh pehle hi comment kiya tha tune
+        onDevice: true,
         listenFor: const Duration(seconds: 120),
         pauseFor: const Duration(seconds: 8),
         partialResults: true,
@@ -362,7 +375,11 @@ class CheckScreenState extends State<CheckScreen> {
               Text(hindi ? 'संदेश जोड़ें' : 'Add a message', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 6),
               Text(
-                hindi
+                kIsWeb
+                    ? tr(_lang,
+                        'Browser preview: paste or type a message. Screenshot OCR, offline voice input and Android sharing need the Android app.',
+                        'ब्राउज़र पूर्वावलोकन: संदेश पेस्ट करें या लिखें। स्क्रीनशॉट OCR, ऑफ़लाइन वॉइस इनपुट और Android शेयरिंग के लिए Android ऐप चाहिए।')
+                    : hindi
                     ? 'टेक्स्ट लिखें, स्क्रीनशॉट चुनें, बोलकर दर्ज करें, या WhatsApp आदि से “शेयर” करें।'
                     : 'Type or paste text, choose a screenshot, dictate it, or use “Share” from WhatsApp and other apps.',
                 style: const TextStyle(color: Color(0xFF626A7F), fontSize: 14, height: 1.4),
@@ -500,7 +517,11 @@ class CheckScreenState extends State<CheckScreen> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          hindi
+                          kIsWeb
+                              ? tr(_lang,
+                                  'Text checks run locally in your browser; messages are not sent to a server. Optional saved history and contacts stay in this browser. Use non-sensitive examples on shared devices.',
+                                  'टेक्स्ट की जाँच इसी ब्राउज़र में होती है; संदेश सर्वर पर नहीं भेजे जाते। वैकल्पिक इतिहास और संपर्क इसी ब्राउज़र में रहते हैं। साझा डिवाइस पर संवेदनशील जानकारी न डालें।')
+                              : hindi
                               ? 'जाँच इसी फ़ोन पर चलती है और आपका संदेश कहीं नहीं भेजा जाता। बोलकर लिखने के लिए फ़ोन की ऑफ़लाइन भाषा सुविधा ज़रूरी है।'
                               : 'Checks run on this phone and your message is never sent anywhere. Voice input needs the phone\'s offline language pack.',
                           style: const TextStyle(fontSize: 13, color: Color(0xFF555E73), height: 1.4),

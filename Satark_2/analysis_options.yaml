@@ -2,6 +2,9 @@ analyzer:
   exclude:
     - build/**
     - android/**
+    # Templates copied into lib/ai by optional_ai/enable_ai.sh, not active source.
+    - optional_ai/**
+    - web/**
 include: package:flutter_lints/flutter.yaml
 
 linter:

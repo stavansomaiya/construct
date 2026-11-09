@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
@@ -23,6 +24,7 @@ class SatarkApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final base = ThemeData(
       useMaterial3: true,
+      fontFamilyFallback: const ['NotoSansDevanagari'],
       scaffoldBackgroundColor: satarkPaper,
       colorScheme: ColorScheme.fromSeed(
         seedColor: satarkTeal,
@@ -115,6 +117,8 @@ class _HomeShellState extends State<HomeShell> {
   }
 
   Future<void> _listenForSharedContent() async {
+    // The sharing-intent plugin only registers on Android and iOS.
+    if (kIsWeb) return;
     _shareSubscription = ReceiveSharingIntent.instance.getMediaStream().listen(
       _handleSharedContent,
       onError: (_) {},

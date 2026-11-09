@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../app.dart';
@@ -121,7 +122,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
                   secondary: const Icon(Icons.lock_outline, color: satarkTeal),
                   title: Text(tr(_language, 'Save checks on this device', 'जाँचें इसी फ़ोन पर सहेजें'), style: TextStyle(fontWeight: FontWeight.w800)),
-                  subtitle: Text(tr(_language, 'Optional and off by default. Stored in secure device storage. You can delete history at any time.', 'वैकल्पिक और शुरू में बंद। सुरक्षित स्टोरेज में रखा जाता है। इतिहास कभी भी हटा सकते हैं।'), style: TextStyle(height: 1.4)),
+                  subtitle: Text(kIsWeb
+                      ? tr(_language, 'Optional and off by default. Saved only in this browser. Avoid sensitive information on shared devices; delete history at any time.', 'वैकल्पिक और शुरू में बंद। केवल इसी ब्राउज़र में सहेजा जाता है। साझा डिवाइस पर संवेदनशील जानकारी न डालें; इतिहास कभी भी हटाएँ।')
+                      : tr(_language, 'Optional and off by default. Stored in secure device storage. You can delete history at any time.', 'वैकल्पिक और शुरू में बंद। सुरक्षित स्टोरेज में रखा जाता है। इतिहास कभी भी हटा सकते हैं।'), style: TextStyle(height: 1.4)),
                 ),
               ),
               const SizedBox(height: 18),

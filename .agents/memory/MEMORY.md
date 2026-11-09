@@ -1,0 +1,1 @@
+- [Preview scope](preview-scope.md) — preserve native Flutter behavior and privacy promises when enabling the browser preview.
