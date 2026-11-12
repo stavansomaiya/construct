@@ -28,3 +28,17 @@ mtime_ms = 1794501212569
 storage_uri = "gcs://replit-rams-assets-janeway/rams/assets/repl:ce16694a-12e4-4091-8b31-9565512ec713/4fdfec0f-8e3d-4d29-bff6-2b315cdd1b0a/5dfeb05e-1a6e-4fee-8b67-1e578f9ec7e3"
 storage_version_token = "1794501220613067"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "Dv7cqxiVAlvbekJinERV5"
+uri = "file://generated-artifacts/Satark_2-github-pages.zip"
+type = "unspecified"
+title = "Satark_2 bundle for GitHub Pages"
+description = "Includes the web-ready Satark_2 source, a GitHub Actions Pages workflow, and setup instructions. Apply it to the public repository, then push to deploy."
+logical_id = "ca1ac1ed-82f3-4ef5-9c8d-cb349a333fdf"
+content_hash = "sha256:dc28900a26bcfbb32efe2b14b15c496c779ccd0612c459fc1dbe6aef06721855"
+size = 182602
+mtime_ms = 1794502396593
+storage_uri = "gcs://replit-rams-assets-janeway/rams/assets/repl:ce16694a-12e4-4091-8b31-9565512ec713/ca1ac1ed-82f3-4ef5-9c8d-cb349a333fdf/6b1481da-3335-4925-845a-6b847c52c26f"
+storage_version_token = "1794502410006336"
+content_type = "application/octet-stream"

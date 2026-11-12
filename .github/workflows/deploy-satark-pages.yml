@@ -1,0 +1,51 @@
+name: Deploy Satark to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Satark_2/**"
+      - ".github/workflows/deploy-satark-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.9"
+          channel: stable
+      - name: Resolve Dart packages
+        working-directory: Satark_2
+        run: flutter pub get
+      - name: Build web app for the repository path
+        working-directory: Satark_2
+        run: flutter build web --release --base-href "/construct/" --no-wasm-dry-run
+      - name: Disable Jekyll processing
+        run: touch Satark_2/build/web/.nojekyll
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload web build
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: Satark_2/build/web
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
