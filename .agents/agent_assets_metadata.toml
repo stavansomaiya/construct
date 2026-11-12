@@ -14,3 +14,17 @@ mtime_ms = 1794236359315
 storage_uri = "gcs://replit-rams-assets-janeway/rams/assets/repl:ce16694a-12e4-4091-8b31-9565512ec713/5548c352-54f7-4749-9620-51e94aadc861/250ac088-833a-41b1-addc-4ff7b9a5051c"
 storage_version_token = "1794236394648045"
 content_type = "text/html"
+
+[[outputs]]
+id = "MbJONq6PgbZkUA80z_Us2"
+uri = "file://generated-artifacts/Satark_2-github-main.zip"
+type = "unspecified"
+title = "Download Satark_2 from GitHub"
+description = "ZIP of the Satark_2 folder from the linked main branch (58 files). Contains the folder files only, not Git commit history."
+logical_id = "4fdfec0f-8e3d-4d29-bff6-2b315cdd1b0a"
+content_hash = "sha256:6926c5c2222f3a56f47460b3312e0337bd0adac2e4b4076442f71afb1da9179d"
+size = 85002
+mtime_ms = 1794501212569
+storage_uri = "gcs://replit-rams-assets-janeway/rams/assets/repl:ce16694a-12e4-4091-8b31-9565512ec713/4fdfec0f-8e3d-4d29-bff6-2b315cdd1b0a/5dfeb05e-1a6e-4fee-8b67-1e578f9ec7e3"
+storage_version_token = "1794501220613067"
+content_type = "application/octet-stream"
